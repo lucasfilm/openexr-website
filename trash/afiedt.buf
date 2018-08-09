@@ -1,0 +1,2 @@
+select distinct datestamp from tascript.rollup_usage_show_daily
+/
