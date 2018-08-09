@@ -1,2 +1,2 @@
 # openexr-website
-www.openexr.com website
+OpenEXR website
