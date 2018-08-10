@@ -138,6 +138,38 @@ license, available <a href="/license.html" target="_blank">here</a>.
 <p align="right"><a href="#top" style="text-decoration: none;"><img src="images/top.gif" width="45" height="26" alt="back to top" border="0"></a></p>
 <p><h5><a name="announ">Announcements</a></h5>
 
+<p><strong>August 13, 2018</strong> - OpenEXR v2.3.0 has been
+  released and is available for download.  </p>
+
+<p>Features/Improvements:</p>
+<ul>
+<li>ThreadPool overhead improvements, enable custom thread pool to be registered via ThreadPoolProvider class</li>
+<li>Fixes to enable custom namespaces for Iex, Imf</li>
+<li>Improve read performance for deep/zipped data, and SIMD-accelerated uncompress support</li>
+<li>Added rawPixelDataToBuffer() function for access to compressed scanlines</li>
+<li>Iex::BaseExc no longer derived from std::string.</li>
+<li>Imath throw() specifiers removed</li>
+<li>Initial Support for Python 3</li>
+</ul>
+
+<p>Bugs:</p>
+<ul>
+<li>25+ various bug fixes (see detailed Release Notes for the full list)</li>
+</ul>
+
+<p>Build Fixes:</p>
+<ul>
+<li>Various fixes to the cmake and autoconf build infrastructures</li>
+<li>Various changes to support compiling for C++11 / C++14 / C++17 and GCC 6.3.1</li>
+<li>Various fixes to address Windows build issues</li>
+<li>60+ total build-related fixes (see detailed Release Notes for the full list)</li>
+</ul>
+
+<p>Full release notes are here:</p>
+<a href="https://github.com/openexr/openexr/blob/develop/CHANGES.md">https://github.com/openexr/openexr/blob/develop/CHANGES.md</a> 
+
+<p>OpenEXR source can be obtained from the downloads section of <a href="http://www.openexr.com">www.openexr.com</a> or from the project page on github: <a href="https://github.com/openexr/openexr">https://github.com/openexr/openexr</a></p>
+
 <p><strong>November 30, 2017</strong> - OpenEXR v2.2.1 has been
   released and is available for download.  </p>
 
