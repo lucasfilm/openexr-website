@@ -143,6 +143,39 @@ license, available <a href="license.html" target="_blank">here</a>.
 <p align="right"><a href="#top" style="text-decoration: none;"><img src="images/top.gif" width="45" height="26" alt="back to top" border="0"></a></p>
 <p><h5><a name="announ">Announcements</a></h5>
 
+<p><strong>Sep 19, 2019</strong> - OpenEXR version v2.4.0 is available for download at <a href="https://github.com/openexr/openexr/releases/tag/v2.4.0">https://github.com/openexr/openexr/releases/tag/v2.4.0</a></p>
+
+<p>This release contains no major new functionality, although it does
+include many miscellaneous bug and security fixes. The major new
+feature is a completely rewritten CMake setup, which should work
+reliably on Linux, macOS, and Windows. The installation instructions
+and project documentation are also freshly revised. See the release
+notes for the complete details.</p>
+
+<p>The project also now supports continuous integration via Azure
+Pipelines and code analysis via SonarCloud, services supported by the
+Academy Software Foundation. Links to the dashboards are through
+the"Azure Pipelines" and "quality gate" badges at the top the GitHub
+repo home page.</p>
+
+<p>Summary of changes:</p>
+<ul>
+<li>Completely re-written CMake configuration files</li>
+<li>Improved support for building on Windows, via CMake</li>
+<li>Improved support for building on macOS, via CMake</li>
+<li>All code compiles without warnings on gcc, clang, msvc</li>
+<li>Cleanup of license and copyright notices</li>
+<li>floating-point exception handling is disabled by default</li>
+<li>New Slice::Make method to reliably compute base pointer for a slice.</li>
+<li>Miscellaneous bug fixes</li>
+</ul>
+
+<p>This version fixes the following security vulnerabilities:</p>
+<ul>
+<li>CVE-2018-18444 Issue #351 Out of Memory</li>
+<li>CVE-2018-18443 Issue #350 heap-buffer-overflow</li>
+</ul>
+
 <p><strong>Sep 5, 2019</strong> - OpenEXR version v2.4.0-beta.1 is available for download at <a href="https://github.com/openexr/openexr/releases/tag/v2.4.0-beta.1">https://github.com/openexr/openexr/releases/tag/v2.4.0-beta.1</a></p>
 
 <p>This release contains no major new functionality, although it does
@@ -174,7 +207,6 @@ repo home page.</p>
 <ul>
 <li>CVE-2018-18444 Issue #351 Out of Memory</li>
 <li>CVE-2018-18443 Issue #350 heap-buffer-overflow</li>
-<li>CVE-2017-12596 Issue #238 heap-based buffer overflow in exrmaketiled</li>
 </ul>
 
 <p><strong>May 1, 2019</strong> - OpenEXR has been adopted by the
