@@ -2,8 +2,8 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<title>OpenEXR</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>OpenEXR</title>
 
 
 </head>
@@ -98,33 +98,73 @@
 
 <p>&nbsp;</p>
 <font size="2" face="Verdana, Arial, Helvetica, sans-serif">
-<p>OpenEXR is a high dynamic-range (HDR) image file format originally developed by
-Industrial Light &amp; Magic for use in computer imaging applications.
+
+<p>OpenEXR provides the specification and reference implementation of
+the EXR file format, the professional-grade image storage format of
+the motion picture industry. The purpose of format is to accurately
+and efficiently represent high-dynamic-range scene-linear image data
+and associated metadata, with strong support for multi-part,
+multi-channel use cases. The library is widely used in host
+application software where accuracy is critical, such as
+photorealistic rendering, texture access, image compositing, deep
+compositing, and DI.</p>
+
+<p>OpenEXR a project of the <a href="https://www.aswf.io/"
+target="_blank">Academy Software Foundation</a> and is part of
+the <a href="https://vfxplatform.com/" target="_blank">VFX Reference
+Platform.</a> OpenEXR was originally developed by Industrial Light &
+Magic (ILM) and first released in 2003. Weta Digital, Walt Disney
+Animation Studios, Sony Pictures Imageworks, Pixar Animation Studios,
+DreamWorks, and other studios, companies, and individuals have made
+significant contributions to the code base.
 </p>
 
-<p>OpenEXR is now maintained by the <a href="https://www.aswf.io/" target="_blank"> Academy Software Foundation</a>.</p>
+<p><h3><a name="mission">Mission Statement</a></h3>
 
-<p>OpenEXR is used by ILM on all motion pictures currently
-    in production.  The first movies to employ OpenEXR were
-    Harry Potter and the Sorcerers Stone, Men in Black II,
-    Gangs of New York, and Signs.  Since then, OpenEXR has
-    become ILM's main image file format.
+<p>The goal of the OpenEXR project is to keep the format reliable and
+modern and to maintain its place as the preferred image format for
+entertainment content creation. Major revisions are infrequent, and
+new features will be carefully weighed against increased complexity.</p>
+
+<p>The principal priorities of the project are:</p>
+<ul>
+<li>Robustness, reliability, security</li>
+<li>Backwards compatibility, data longevity</li>
+<li>Performance - read/write/compression/decompression time</li>
+<li>Simplicity, ease of use, maintainability</li>
+<li>Wide adoption, multi-platform support - Linux, Windows, macOS, and others</li>
+</ul>
+
+<p>OpenEXR is intended solely for 2D data. It is not appropriate for
+storage of volumetric data, cached or lit 3D scenes, or more complex
+3D data such as light fields.</p>
+
+<p>Also a part of OpenEXR, the IlmBase library is a basic, light-weight,
+and efficient representation of 2D and 3D vectors and matrices and
+other simple but useful mathematical objects, functions, and data
+types common in computer graphics applications, including the “half”
+16-bit floating-point type. The goal of the project is simplicity,
+ease of use, and breadth of adoption. It is not intended to be a
+comprehensive linear algebra or numerical analysis package.</p>
+
+<p><h3><a name="features">OpenEXR Features</a></h3>
 
 <p>OpenEXR's features include:
 
 <ul>
-	<li>Higher dynamic range and color precision than existing 8- and 10-bit image file formats.</li>
-	<li>Support for 16-bit floating-point, 32-bit floating-point,	and 32-bit integer pixels. The 16-bit floating-point format,
-	called "half", is compatible with the <code>half</code> data type in <a href="http://developer.nvidia.com/" target="_blank">NVIDIA's Cg</a> graphics language and is supported natively on their new GeForce FX and Quadro FX 3D graphics solutions.</li>
-	<!--<li>Multiple lossless image compression algorithms.  Some of the included codecs can achieve 2:1 lossless compression ratios on images with film grain.</li>-->
-  <li>Multiple image compression algorithms, both lossless and lossy. Some of the included codecs can achieve 2:1 lossless compression ratios on images with film grain.  The lossy codecs have been tuned for visual quality and decoding performance.</li>
-	<li>Extensibility.  New compression codecs and image types can easily be added by extending the C++ classes included in the OpenEXR software distribution. New image attributes (strings, vectors, integers, etc.) can be added to OpenEXR image headers without affecting backward compatibility with existing OpenEXR applications.</li>
-	<li>Deep Data. Pixels can store a variable length list of samples.  The main rationale behind deep-images is to store multiple values at different depths for each pixel. Support for hard surface and volumetric representation requirements for deep compositing workflows.</li>
-	<li>Multi-part image files. Files can contain a number of separate, but related, images in one file. Access to any part is independent of the others; in particular, no access of data need take place for unrequested parts.</li>
+
+<li>High dynamic range and color precision.</li>
+<li>Support for 16-bit floating-point, 32-bit floating-point, and 32-bit integer pixels.</li>
+<li>Multiple image compression algorithms, both lossless and lossy. Some of the included codecs can achieve 2:1 lossless compression ratios on images with film grain. The lossy codecs have been tuned for visual quality and decoding performance.</li>
+<li>Extensibility. New compression codecs and image types can easily be added by extending the C++ classes included in the OpenEXR software distribution. New image attributes (strings, vectors, integers, etc.) can be added to OpenEXR image headers without affecting backward compatibility with existing OpenEXR applications.</li>
+<li>Support for stereoscopic image workflows and a generalization to multi-views.</li>
+<li>Flexible support for deep data: pixels can store a variable-length list of samples and, thus, it is possible to store multiple values at different depths for each pixel. Hard surfaces and volumetric data representations are accommodated.</li>
+<li>Multipart: ability to encode separate, but related, images in one file. This allows for access to individual parts without the need to read other parts in the file.</li>
+<li>Versioning: OpenEXR source allows for user configurable C++ namespaces to provide protection when using multiple versions of the library in the same process space.</li>
+
 </ul>
 
-<p>ILM has released OpenEXR as free software.  The OpenEXR software
-distribution includes:
+<p>The OpenEXR software distribution includes:</p>
 
 <ul>
   <li><i>IlmImf</i>, a library that reads and writes OpenEXR images.</li>
@@ -138,10 +178,13 @@ more.</li>
 display at various exposure settings.</li>
 </ul>
 
-<p>The OpenEXR software distribution is now licensed under the modified BSD
-license, available <a href="license.html" target="_blank">here</a>.
+<p>The OpenEXR software distribution is licensed under the modified
+BSD license, available <a href="license.html"
+target="_blank">here</a>.
+
 <p align="right"><a href="#top" style="text-decoration: none;"><img src="images/top.gif" width="45" height="26" alt="back to top" border="0"></a></p>
-<p><h5><a name="announ">Announcements</a></h5>
+
+<p><h3><a name="announ">Announcements</a></h3>
 
 <p><strong>Sep 19, 2019</strong> - OpenEXR version v2.4.0 is available for download at <a href="https://github.com/openexr/openexr/releases/tag/v2.4.0">https://github.com/openexr/openexr/releases/tag/v2.4.0</a></p>
 
