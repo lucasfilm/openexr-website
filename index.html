@@ -120,7 +120,7 @@ DreamWorks, and other studios, companies, and individuals have made
 significant contributions to the code base.
 </p>
 
-<p><h3><a name="mission">Mission Statement</a></h3>
+<p><h2><a name="mission">Mission Statement</a></h2>
 
 <p>The goal of the OpenEXR project is to keep the format reliable and
 modern and to maintain its place as the preferred image format for
@@ -140,15 +140,7 @@ new features will be carefully weighed against increased complexity.</p>
 storage of volumetric data, cached or lit 3D scenes, or more complex
 3D data such as light fields.</p>
 
-<p>Also a part of OpenEXR, the IlmBase library is a basic, light-weight,
-and efficient representation of 2D and 3D vectors and matrices and
-other simple but useful mathematical objects, functions, and data
-types common in computer graphics applications, including the “half”
-16-bit floating-point type. The goal of the project is simplicity,
-ease of use, and breadth of adoption. It is not intended to be a
-comprehensive linear algebra or numerical analysis package.</p>
-
-<p><h3><a name="features">OpenEXR Features</a></h3>
+<p><h2><a name="features">OpenEXR Features</a></h2>
 
 <p>OpenEXR's features include:
 
@@ -165,19 +157,20 @@ comprehensive linear algebra or numerical analysis package.</p>
 
 </ul>
 
-<p>The OpenEXR software distribution includes:</p>
+<p><h2><a name="v3">OpenEXR and Imath Version 3</a></h2>
 
-<ul>
-  <li><i>IlmImf</i>, a library that reads and writes OpenEXR images.</li>
-  <li><i>IlmImfUtil</i>, a convenience library to simplify development of OpenEXR utilities.</li>
-  <li><i>Half</i>, a C++ class for manipulating half values as if they were a
-built-in C++ data type.</li>
-  <li><i>Imath</i>, a math library with support for matrices, 2d- and
-3d-transformations, solvers for linear/quadratic/cubic equations, and
-more.</li>
-  <li><i>exrdisplay</i>, a sample application for viewing OpenEXR images on a
-display at various exposure settings.</li>
-</ul>
+<p>With the release of OpenEXR 3, the Imath library formerly distributed
+via the IlmBase component of OpenEXR is now an independent library
+dependency, available for download from <a href="https:://github.com/AcademySoftwareFoundation/Imath.">https:://github.com/AcademySoftwareFoundation/Imath.</a>
+You can choose to build OpenEXR against an external installation of
+Imath, or the default CMake configuration will download and build it
+automatically during the OpenEXR build process.  Note that the half
+16-bit floating point data type is included in Imath.</p>
+
+<p>See the <a href="https://github.com/AcademySoftwareFoundation/Imath/blob/master/docs/PortingGuide2-3.md" target="_blank">porting guide</a>
+for details about differences from previous releases and how to
+address them. Also refer to the porting guide for details about
+changes to Imath.</p>
 
 <p>The OpenEXR software distribution is licensed under the modified
 BSD license, available <a href="license.html"
@@ -185,9 +178,197 @@ target="_blank">here</a>.
 
 <p align="right"><a href="#top" style="text-decoration: none;"><img src="images/top.gif" width="45" height="26" alt="back to top" border="0"></a></p>
 
-<p><h3><a name="announ">Announcements</a></h3>
+<hr><h4>
+<p><h2><a name="announ">Announcements</a></h2>
 
-<p><strong>August 12, 2020</strong> - OpenEXR version v2.5.3 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.3">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.3</a></p>
+<hr><h4>
+
+<h3>March 16, 2020 OpenEXR v3.0.0-beta</h3>
+
+<h4>OpenEXR version v3.0.0-beta is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.0.0-beta">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.0.0-beta</a></h4>
+
+<p>Major release with major build restructing, security improvements, and
+new features:</p>
+
+<ul>
+
+  <li> Restructuring:
+    <ul>
+      <li> The IlmBase/PyIlmBase submodules have been separated into the
+           Imath project, now included by OpenEXR via a CMake submodule
+           dependency, fetched automatically via CMake's FetchContent if
+           necessary.</li>
+      <li> The library is now called <tt>libOpenEXR</tt> (instead of
+           <tt>libIlmImf</tt>).  No header files have been renamed, they retain
+           the <tt>Imf</tt> prefix.</li>
+      <li> Symbol linkage visibility is limited to specific public symbols.</li>
+    </ul>
+  </li>
+
+  <li> Build improvements:
+    <ul>
+      <li> No more simultaneous static/shared build option.
+        Gnu autoconf/bootstrap/configure build setup has been retired.</li>
+      <li> Community-provided support for bazel.</li>
+    </ul>
+  </li>
+
+  <li> New Features:
+    <ul>
+      <li> ID Manifest Attributes, as described in <a href="https://doi.org/10.1145/3233085.3233086" target="_blank">"A Scheme for
+           Storing Object ID Manifests in OpenEXR Images"</a>, Peter
+           Hillman, DigiPro 18: Proceedings of the 8th Annual Digital
+           Production Symposium, August 2018.</li>
+
+      <li> New program: exrcheck validates the contents of an EXR file.</li>
+    </ul>
+  </li>
+
+  <li> Changes:
+    <ul>
+      <li> EXR files with no channels are no longer allowed.</li>
+      <li> Hard limit on the size of deep tile sizes; tiles must be less than
+           2<sup>30</sup> pixels.</li>
+      <li> Tiled DWAB files used STATIC_HUFFMAN compression.
+      <li> <tt>Int64</tt> and <tt>SInt64</tt> types are deprecated in favor of
+           <tt>uint64_t</tt> and <tt>int64_t</tt>.</li>
+      <li> Header files have been pruned of extraneous <tt>#include</tt>'s
+           ("Include What You Use"), which may generate compiler errors
+           in application source code from undefined symbols or
+           partially-defined types. These can be resolved by identifying
+           and including the appropriate header.</li>
+      <li> See the <a href="https://github.com/AcademySoftwareFoundation/Imath/blob/master/docs/PortingGuide2-3.md" target="_blank">porting
+           guide</a>
+           for details about differences from previous releases and how
+           to address them.</li>
+      <li> Also refer to the porting guide for details about changes to
+           Imath.</li>
+   </ul>
+  </li>
+
+</ul>
+
+<p>Specific OSS-fuzz issues addressed include:</p>
+
+<ul>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24573" target="_blank">24573</a>Out-of-memory in openexr_exrenvmap_fuzzer </li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24857" target="_blank">24857</a> Out-of-memory in openexr_exrheader_fuzzer </li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25002" target="_blank">25002</a> Out-of-memory in openexr_deepscanlines_fuzzer </li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25648" target="_blank">25648</a> Out-of-memory in openexr_scanlines_fuzzer </li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26641" target="_blank">26641</a> Invalid-enum-value in readSingleImage </li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=28051" target="_blank">28051</a> Heap-buffer-overflow in Imf_2_5::copyIntoFrameBuffer </li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=28155" target="_blank">28155</a> Crash in Imf_2_5::PtrIStream::read </li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=28419" target="_blank">28419</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29393" target="_blank">29393</a> Timeout in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29423" target="_blank">29423</a> Integer-overflow in Imf_2_5::DwaCompressor::initializeBuffers</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29653" target="_blank">29653</a> Integer-overflow in Imf_2_5::DwaCompressor::initializeBuffers</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29682" target="_blank">29682</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=30115" target="_blank">30115</a> Timeout in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=30249" target="_blank">30249</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=30605" target="_blank">30605</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=30616" target="_blank">30616</a> Timeout in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=30969" target="_blank">30969</a> Direct-leak in Imf_2_5::DwaCompressor::LossyDctDecoderBase::execute</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31015" target="_blank">31015</a> Direct-leak in Imf_2_5::TypedAttribute&lt;Imf_2_5::CompressedIDManifest&gt;::readValueFrom</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31044" target="_blank">31044</a> Timeout in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31072" target="_blank">31072</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31221" target="_blank">31221</a> Integer-overflow in bool Imf_2_5::readDeepTile&lt;Imf_2_5::DeepTiledInputPart&gt;</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31228" target="_blank">31228</a> Integer-overflow in bool Imf_2_5::readDeepTile&lt;Imf_2_5::DeepTiledInputFile&gt;</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31291" target="_blank">31291</a> Sanitizer CHECK failure in ""((0 &amp;&amp; ""Address is not in memory and not in shadow?"")) != (0)"" (0x0, 0x0)</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31293" target="_blank">31293</a> Segv on unknown address in Imf_2_5::copyIntoFrameBuffer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31390" target="_blank">31390</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=31539" target="_blank">31539</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+</ul>
+
+<hr>
+
+<h3>March 15, 2021 Imath v3.0.0-beta </h3>
+
+<h4>Imath version v3.0.0-beta is available for download at <a href="https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.0.0-beta">https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.0.0-beta</a></h4>
+
+<p>First release of Imath independent of OpenEXR.</p>
+
+<p>See the <a href="https://github.com/AcademySoftwareFoundation/Imath/blob/master/docs/PortingGuide2-3.md" target="_blank">porting guide</a>
+for details about differences from previous releases.</p>
+
+<p>Summary:</p>
+
+<ul>
+  <li> Imath includes the half type, formerly in a separate Half library. </li>
+  <li> Headers are installed in <tt>Imath/</tt> subdirectory. </li>
+  <li> All appropriate methods are marked constexpr, noexcept </li>
+  <li> Appropriate declaration include CUDA <tt>__host__</tt> and <tt>__device__</tt>  directives. </li>
+  <li> Throwing methods throw std exceptions instead of <tt>Iex</tt>. </li>
+  <li> New Vec and Matrix interoperability constructors for conversion from other similar type objects. </li>
+  <li> Symbol linkage visibility is limited to specific public symbols. </li>
+  <li> python bindings are off by default, available by setting <tt>PYTHON=ON</tt> </li>
+  <li> Deprecated features:
+    <ul>
+      <li> <tt>std::numeric_limits</tt> replaces <tt>Imath::limits</tt>. </li>
+      <li> <tt>Int64</tt> and <tt>SInt64</tt> are deprecated in favor of <tt>uint64_t</tt> and <tt>int64_t</tt>. </li>
+    </ul>
+  </li>
+</ul>  
+
+<hr>
+
+<h3>February 12, 2021 OpenEXR v2.5.5 </h3>
+
+<h4>OpenEXR version v2.5.5 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.5">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.5</a></h4>
+
+<p>Patch release with various bug/sanitizer/security fixes, primarily
+related to reading corrupted input files, but also a fix for universal
+build support on macOS. </p>
+
+<p>Specific OSS-fuzz issues include:</p>
+
+<ul>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=30291" target="_blank">30291</a> Timeout in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29106" target="_blank">29106</a> Heap-buffer-overflow in Imf_2_5::FastHufDecoder::decode</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=28971" target="_blank">28971</a> Undefined-shift in Imf_2_5::cachePadding</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29829" target="_blank">29829</a> Integer-overflow in Imf_2_5::DwaCompressor::initializeBuffers</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=30121" target="_blank">30121</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+</ul>
+
+<hr>
+
+<h3>December 31, 2020 OpenEXR v2.5.4 </h3>
+
+<h4>OpenEXR version v2.5.4 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.4">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.4</a></h4>
+
+<p>Patch release with various bug/sanitizer/security fixes, primarily
+related to reading corrupted input files.<p>
+
+<p>Specific OSS-fuzz issues include:</p>
+
+<ul>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24854" target="_blank">24854</a> Segv on unknown address in Imf_2_5::hufUncompress</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24831" target="_blank">24831</a> Undefined-shift in Imf_2_5::FastHufDecoder::FastHufDecoder</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24969" target="_blank">24969</a> Invalid-enum-value in Imf_2_5::TypedAttribute&lt;Imf_2_5::Envmap&gt;::writeValueTo</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25297" target="_blank">25297</a> Integer-overflow in Imf_2_5::calculateNumTiles</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24787" target="_blank">24787</a> Undefined-shift in Imf_2_5::unpack14</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25326" target="_blank">25326</a> Out-of-memory in openexr_scanlines_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25399" target="_blank">25399</a> Heap-buffer-overflow in Imf_2_5::FastHufDecoder::FastHufDecoder</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25415" target="_blank">25415</a> Abrt in __cxxabiv1::failed_throw</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25370" target="_blank">25370</a> Out-of-memory in openexr_exrenvmap_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25501" target="_blank">25501</a> Out-of-memory in openexr_scanlines_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25505" target="_blank">25505</a> Heap-buffer-overflow in Imf_2_5::copyIntoFrameBuffer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25562" target="_blank">25562</a> Integer-overflow in Imf_2_5::hufUncompress</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25740" target="_blank">25740</a> Null-dereference READ in Imf_2_5::Header::operator</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25743" target="_blank">25743</a> Null-dereference in Imf_2_5::MultiPartInputFile::header</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25913" target="_blank">25913</a> Out-of-memory in openexr_exrenvmap_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26229" target="_blank">26229</a> Undefined-shift in Imf_2_5::hufDecode</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26658" target="_blank">26658</a> Out-of-memory in openexr_scanlines_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26956" target="_blank">26956</a> Heap-buffer-overflow in Imf_2_5::DeepTiledInputFile::readPixelSampleCounts</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=27409" target="_blank">27409</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25892" target="_blank">25892</a> Divide-by-zero in Imf_2_5::calculateNumTiles</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25894" target="_blank">25894</a> Floating-point-exception in Imf_2_5::precalculateTileInfo</li>
+</ul>
+
+<hr>
+
+<h3>August 12, 2020 OpenEXR v2.5.3 </h3>
+
+<h4>OpenEXR version v2.5.3 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.3">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.3</a></h4>
 
 <p>Patch release with various bug/security fixes and build/install fixes, plus a performance optimization:</p>
 
@@ -200,9 +381,11 @@ target="_blank">here</a>.
 <li>Fixes to tests</li>
 </ul>
 
-<p>---</p>
+<hr>
 
-<p><strong>June 15, 2020</strong> - OpenEXR version v2.5.2 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.2">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.2</a></p>
+<h3>June 15, 2020 OpenEXR v2.5.2 </h3>
+
+<h4>OpenEXR version v2.5.2 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.2">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.2</a></h4>
 
 <p>Patch release with various bug/security and build/install fixes:</p>
 
@@ -214,9 +397,11 @@ target="_blank">here</a>.
 <li>Various Windows build fixes</li>
 </ul>
 
-<p>---</p>
+<hr>
 
-<p><strong>June 15, 2020</strong> - OpenEXR version v2.4.2 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.2">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.2</a></p>
+<h3>June 15, 2020 OpenEXR v2.4.2 </h3>
+
+<h4>OpenEXR version v2.4.2 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.2">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.2</a></h4>
 
 <p>Patch release that backports various recent bug/security fixes:</p>
 
@@ -227,18 +412,22 @@ target="_blank">here</a>.
 <li>OpenEXRConfig.h now correctly sets OPENEXR_PACKAGE_STRING to "OpenEXR" (rather than "IlmBase)"</li>
 </ul>
 
-<p>---</p>
+<hr>
 
-<p><strong>May 11, 2020</strong> - OpenEXR version v2.5.1 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.1">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.1</a></p>
+<h3>May 11, 2020 OpenEXR v2.5.1 </h3>
+
+<h4>OpenEXR version v2.5.1 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.1">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.1</a></h4>
 
 <p>v2.5.1 is a patch release that corrects the SO version for the v2.5
 release, which missed getting bumped in v2.5.0.</p>
 
 <p>This release also fixes an improper failure in IlmImfTest when running on ARMv7 and AAarch64.</p>
 
-<p>---</p>
+<hr>
 
-<p><strong>May 6, 2020</strong> - OpenEXR version v2.5.0 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.0">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.0</a></p>
+<h3>May 6, 2020 OpenEXR v2.5.0 </h3>
+
+<h4>OpenEXR version v2.5.0 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.0">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.0</a></h4>
 
 <p>This is a minor release with miscellaneous bug fixes and small features</p>
 
@@ -263,10 +452,11 @@ release, which missed getting bumped in v2.5.0.</p>
 <p>See the <a href="https://github.com/AcademySoftwareFoundation/openexr/blob/v2.5.0/CHANGES.md#version-250-may-6-2020">release
   notes</a> for more details.</p>
 
-<p>---</p>
+<hr>
 
-<p><strong>April 30, 2020</strong> - OpenEXR version v2.2.2 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.2.2">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.2.2</a></p>
+<h3>April 30, 2020 OpenEXR v2.2.2 </h3>
 
+<h4>OpenEXR version v2.2.2 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.2.2">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.2.2</a></h4>
 
 <p>This is a patch release of OpenEXR v2.2 that includes fixes for the following security vulnerabilities:</p>
 
@@ -311,9 +501,11 @@ release, which missed getting bumped in v2.5.0.</p>
   the <a href="https://github.com/AcademySoftwareFoundation/openexr/blob/master/CHANGES.md#version-222-april-30-2020">CHANGES.md</a>
   for more details.</p>
 
-<p>---</p>
+<hr>
 
-<p><strong>Feb 11, 2020</strong> - OpenEXR version v2.4.1 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.1">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.1</a></p>
+<h3>Feb 11, 2020 OpenEXR v2.4.1 </h3>
+
+<h4>OpenEXR version v2.4.1 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.1">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.1</a></h4>
 
 <p>This is a patch release that addresses miscellaneous bugs.</p>
 
@@ -325,42 +517,11 @@ release, which missed getting bumped in v2.5.0.</p>
   <li>ImfMisc.h is no longer installed, since it's a private header.</li>
 </ul>
 
-<p>---</p>
+<hr>
 
-<p><strong>Sep 19, 2019</strong> - OpenEXR version v2.4.0 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.0">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.0</a></p>
+<h3>Sep 19, 2019 OpenEXR v2.4.0 </h3>
 
-<p>This release contains no major new functionality, although it does
-include many miscellaneous bug and security fixes. The major new
-feature is a completely rewritten CMake setup, which should work
-reliably on Linux, macOS, and Windows. The installation instructions
-and project documentation are also freshly revised. See the release
-notes for the complete details.</p>
-
-<p>The project also now supports continuous integration via Azure
-Pipelines and code analysis via SonarCloud, services supported by the
-Academy Software Foundation. Links to the dashboards are through
-the"Azure Pipelines" and "quality gate" badges at the top the GitHub
-repo home page.</p>
-
-<p>Summary of changes:</p>
-<ul>
-<li>Completely re-written CMake configuration files</li>
-<li>Improved support for building on Windows, via CMake</li>
-<li>Improved support for building on macOS, via CMake</li>
-<li>All code compiles without warnings on gcc, clang, msvc</li>
-<li>Cleanup of license and copyright notices</li>
-<li>floating-point exception handling is disabled by default</li>
-<li>New Slice::Make method to reliably compute base pointer for a slice.</li>
-<li>Miscellaneous bug fixes</li>
-</ul>
-
-<p>This version fixes the following security vulnerabilities:</p>
-<ul>
-<li>CVE-2018-18444 Issue #351 Out of Memory</li>
-<li>CVE-2018-18443 Issue #350 heap-buffer-overflow</li>
-</ul>
-
-<p><strong>Sep 5, 2019</strong> - OpenEXR version v2.4.0-beta.1 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.0-beta.1">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.0-beta.1</a></p>
+<h4>OpenEXR version v2.4.0 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.0">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.0</a></h4>
 
 <p>This release contains no major new functionality, although it does
 include many miscellaneous bug and security fixes. The major new
@@ -393,12 +554,56 @@ repo home page.</p>
 <li>CVE-2018-18443 Issue #350 heap-buffer-overflow</li>
 </ul>
 
-<p><strong>May 1, 2019</strong> - OpenEXR has been adopted by the
+<hr>
+
+<h3>Sep 5, 2019 OpenEXR v2.4.0-beta.1 </h3>
+
+<h4>OpenEXR version v2.4.0-beta.1 is available for download at <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.0-beta.1">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.0-beta.1</a></h4>
+
+<p>This release contains no major new functionality, although it does
+include many miscellaneous bug and security fixes. The major new
+feature is a completely rewritten CMake setup, which should work
+reliably on Linux, macOS, and Windows. The installation instructions
+and project documentation are also freshly revised. See the release
+notes for the complete details.</p>
+
+<p>The project also now supports continuous integration via Azure
+Pipelines and code analysis via SonarCloud, services supported by the
+Academy Software Foundation. Links to the dashboards are through
+the"Azure Pipelines" and "quality gate" badges at the top the GitHub
+repo home page.</p>
+
+<p>Summary of changes:</p>
+<ul>
+<li>Completely re-written CMake configuration files</li>
+<li>Improved support for building on Windows, via CMake</li>
+<li>Improved support for building on macOS, via CMake</li>
+<li>All code compiles without warnings on gcc, clang, msvc</li>
+<li>Cleanup of license and copyright notices</li>
+<li>floating-point exception handling is disabled by default</li>
+<li>New Slice::Make method to reliably compute base pointer for a slice.</li>
+<li>Miscellaneous bug fixes</li>
+</ul>
+
+<p>This version fixes the following security vulnerabilities:</p>
+<ul>
+<li>CVE-2018-18444 Issue #351 Out of Memory</li>
+<li>CVE-2018-18443 Issue #350 heap-buffer-overflow</li>
+</ul>
+
+<hr>
+
+<h3>May 1, 2019</h3>
+
+<h4>OpenEXR has been adopted by the
 <a href="https://www.aswf.io/openexr-and-opencue-join-aswf"
-   target="_blank">Academy Software Foundation</a>.</p>
+   target="_blank">Academy Software Foundation</a>.</h4>
 
-<p><strong>August 13, 2018</strong> - OpenEXR v2.3.0 has been
-  released and is available for download.  </p>
+<hr>
+
+<h3>August 13, 2018 OpenEXR.3.0 has </h3>
+
+<h4>OpenEXR v2.3.0 has been released and is available for download.  </h4>
 
 <p>Features/Improvements:</p>
 <ul>
@@ -429,16 +634,21 @@ repo home page.</p>
 
 <p>OpenEXR source can be obtained from the downloads section of <a href="http://www.openexr.com">www.openexr.com</a> or from the project page on github: <a href="https://github.com/AcademySoftwareFoundation/openexr">https://github.com/AcademySoftwareFoundation/openexr</a></p>
 
-<p><strong>November 30, 2017</strong> - OpenEXR v2.2.1 has been
-  released and is available for download.  </p>
+<h3>November 30, 2017 OpenEXR.2.1 has </h3>
+
+<h4>OpenEXR v2.2.1 has been released and is available for download.  </h4>
 
 <p>This maintenance release addresses the reported OpenEXR security vulnerabilities, specifically CVE-2017-9110, CVE-2017-9111, CVE-2017-9112, CVE-2017-9113, CVE-2017-9114, CVE-2017-9115, CVE-2017-9116. </p>
 
 <p>OpenEXR source can be obtained from the downloads section of <a href="http://www.openexr.com">www.openexr.com</a> or from the project page on github: <a href="https://github.com/AcademySoftwareFoundation/openexr">https://github.com/AcademySoftwareFoundation/openexr</a></p>
 
-<p>---</p>
+<hr>
 
-<p><strong>August 10, 2014</strong> - OpenEXR v2.2.0 has been released and is available for download.  This release includes the following components:</p>
+<h3>August 10, 2014 OpenEXR v2.2.0 </h3>
+
+<h4>OpenEXR v2.2.0 has been released and is available for download.</h4>
+
+<p>This release includes the following components:</p>
 <ul>
   <li>OpenEXR: v2.2.0</li>
   <li>IlmBase: v2.2.0</li>
@@ -455,9 +665,13 @@ repo home page.</p>
 
 <p>OpenEXR source can be obtained from the downloads section of <a href="http://www.openexr.com">www.openexr.com</a> or from the project page on github: <a href="https://github.com/AcademySoftwareFoundation/openexr">https://github.com/AcademySoftwareFoundation/openexr</a></p>
 
-<p>---</p>
+<hr>
 
-<p><b>November 25, 2013</b> - OpenEXR v2.1.0 has been released and is available for download. This release includes the following components (version locked):</p>
+<h3>November 25, 2013 OpenEXR v2.1.0 </h3>
+
+<h4>OpenEXR v2.1.0 has been released and is available for download.</h4>
+
+<p>This release includes the following components (version locked):</p>
 
 <ul>
 <li>OpenEXR: v2.1.0</li>
@@ -468,7 +682,11 @@ repo home page.</p>
 
 <p>This release includes a refactoring of the optimised read paths for RGBA data, optimisations for some of the python bindings to Imath, improvements to the cmake build environment as well as additional documentation describing deep data in more detail.</p>
 
-<p><b>April 9, 2013</b> - Industrial Light & Magic (ILM) and Weta Digital announce the release of OpenEXR 2.0, the major version update of the open source high dynamic range file format first introduced by ILM and maintained and expanded by a number of key industry leaders including Weta Digital, Pixar Animation Studios, Autodesk and others.</p>
+<hr>
+
+<h3>April 9, 2013 OpenEXR v2.0</h3>
+
+<h4>Industrial Light & Magic (ILM) and Weta Digital announce the release of OpenEXR 2.0, the major version update of the open source high dynamic range file format first introduced by ILM and maintained and expanded by a number of key industry leaders including Weta Digital, Pixar Animation Studios, Autodesk and others.</h4>
 
 <p>The release includes a number of new features that align with the major version number increase. Amongst the major improvements are:</p>
 
@@ -494,9 +712,11 @@ repo home page.</p>
 
 <p>In addition to visual effects, the new additions to the format, means that depth data can also be assigned to two-dimensional data for a use in many design fields including, architecture, graphic design, automotive and product prototyping.</p>
 
-<p>---</p>
+<hr>
 
-<p><b>July 31st, 2012</b> - OpenEXR v1.7.1 has been released and is available for download. This release includes the following components:</p>
+<h3>July 31st, 2012 OpenEXR v1.7.1 </h3>
+
+<h4>OpenEXR v1.7.1 has been released and is available for download. This release includes the following components:</h4>
 
 <ul>
 <li>  OpenEXR: v1.7.1</li>
@@ -509,9 +729,12 @@ repo home page.</p>
 
 <p>In addition, contained in this release is a number of additions to Imath as well as a minor tweak to Imath::Frustrum (for better support for Windows platforms) as well as other minor fixes, including correction for soname version of IlmImf.</p>
 
-<p>---</p>
+<hr>
 
-<p><b>June 18, 2012</b> - We're pleased to announce the first public Beta release of OpenEXR v2.</p>
+<h3>June 18, 2012</h3>
+
+<h4>We're pleased to announce the first public Beta release of OpenEXR v2.</h4>
+
 <p>Development of OpenEXR v2 has been undertaken in a collaborative environment (cf. previous <b>github</b> announcement) comprised of Industrial Light & Magic, Weta Digital as well as a number of other contributors.</p>
 <p>Some of the new features included in the Beta.1 release of OpenEXR v2 are:</p>
 <p>* Deep Data. Pixels can now store a variable length list of samples.  The main rationale behind deep-images is to have multiple values at different depths for each pixel. OpenEXR v2 supports both hard surface and volumetric representation requirements for deep compositing workflows.</p>
@@ -519,34 +742,45 @@ repo home page.</p>
 <p>In addition, OpenEXR v2 also contains platform independent mechanisms for handling co-existing library version conflicts in the same process space. (Currently implemented in IlmImf)</p>
 <p>Finally, a reminder that this is a Beta release and potentially incompatible changes may be introduced in future releases prior to the v2.0.0 production version.</p>
 <p>OpenEXR v2Beta.1 can be found at: <a href="https://github.com/AcademySoftwareFoundation/openexr/tree/v2_beta.1" target="_blank">https://github.com/AcademySoftwareFoundation/openexr/tree/v2_beta.1</a></p>
-<p>---</p>
 
-<p><b>June 18, 2012</b> - We're pleased to announce that the OpenEXR source code is moving to <b>github.com</b>. You can browse, download and branch the code at <a href="http://www.github.com/AcademySoftwareFoundation/openexr" target="_blank">www.github.com/AcademySoftwareFoundation/openexr</a>.</p>
+<hr>
+
+<h3>June 18, 2012</h3> - We're pleased to announce that the OpenEXR source code is moving to <b>github.com</b>. You can browse, download and branch the code at <a href="http://www.github.com/AcademySoftwareFoundation/openexr" target="_blank">www.github.com/AcademySoftwareFoundation/openexr</a>.</p>
 
 <p>We're looking forward to taking advantage of the collaborative features presented by <b>git</b> and <b>github.com</b> and of course community contributions. Please see the developer Wiki pages for more information regarding participation.</p>
 
-<p>---</p>
+<hr>
 
-<p><b>July 23, 2010</b> - New feature version of OpenEXR is now available. This release includes support for stereoscopic images, please see the adjoining documentation in the <a target="_blank" href="MultiViewOpenEXR.pdf">MultiViewOpenEXR.pdf</a>. (Many thanks to Weta Digital for their contribution.) In addition, we added support for targeting 64 bit Windows, fixes for buffer overruns and a number of other minor fixes, additions and optimisations. Please see the Changelog files for more detailed information.</p>
+<h3>July 23, 2010</h3>
+
+<h4>New feature version of OpenEXR is now available. This release includes support for stereoscopic images, please see the adjoining documentation in the <a target="_blank" href="MultiViewOpenEXR.pdf">MultiViewOpenEXR.pdf</a>. (Many thanks to Weta Digital for their contribution.) In addition, we added support for targeting 64 bit Windows, fixes for buffer overruns and a number of other minor fixes, additions and optimisations. Please see the Changelog files for more detailed information.</h4>
 
 <p>OpenEXR 1.7.0, OpenEXR_Viewers 1.0.2,  IlmBase 1.0.2 and OpenEXR-Images-1.7.0 can be downloaded from the <a href="downloads.html">downloads section</a> of www.openexr.com</p>
 
-<p>---</p>
+<hr>
 
- <p><b>October 22, 2007</b> - New versions of OpenEXR and CTL are now available.
-     This release fixes a buffer overrun in OpenEXR and a Windows build problem
-     in CTL, and it removes a few unnecessary files from the .tar.gz packages.<br /><br />
+<h3>October 22, 2007</h3>
 
-     OpenEXR 1.6.1, OpenEXR_Viewers 1.0.1 and IlmBase 1.0.1 can be downloaded
+<h4>New versions of OpenEXR and CTL are now available.</h4>
+
+     <p>This release fixes a buffer overrun in OpenEXR and a Windows build problem
+     in CTL, and it removes a few unnecessary files from the .tar.gz packages.</p>
+
+     <p>OpenEXR 1.6.1, OpenEXR_Viewers 1.0.1 and IlmBase 1.0.1 can be downloaded
      from the <a href="downloads.html">downloads section</a> of www.openexr.com.  CTL 1.4.1 and OpenEXR_CTL
-     1.0.1 can be downloaded from <a href="http://www.oscars.org/science-technology/council/projects/ctl.html" target="_blank">http://www.oscars.org/science-technology/council/projects/ctl.html</a>.
-	 <p>---
+     1.0.1 can be downloaded from <a href="http://www.oscars.org/science-technology/council/projects/ctl.html" target="_blank">http://www.oscars.org/science-technology/council/projects/ctl.html</a>.<p>
 
- <p><b>August 3, 2007</b> - New stable versions of OpenEXR and CTL are now
-         available.  The source code has been tested on Linux, Mac OS X
-         and Windows (Visual Studio 7 and 8).
+<hr>
+
+<h3>August 3, 2007</h3>
+
+<h4>New stable versions of OpenEXR and CTL are now available.</h4>
+
+<p>The source code has been tested on Linux, Mac OS X
+         and Windows (Visual Studio 7 and 8).</p>
+
 <p>
-         Here's a summary of what has changed since the last release:
+  Here's a summary of what has changed since the last release:
 <p>
              OpenEXR 1.6.0
 	     <ul>
@@ -585,9 +819,9 @@ repo home page.</p>
          downloaded from the  <a href="downloads">downloads section</a> of www.openexr.com.  CTL 1.4.0 and OpenEXR_CTL 1.0.0
          can be downloaded from <a href="http://www.oscars.org/council/ctl.html" target="_blank">http://www.oscars.org/council/ctl.html</a>.
 
-	 <p>---
+<hr>
 
-<p><b>January 22, 2007</b> - CTL has been released.
+<h3>January 22, 2007</h3> - CTL has been released.
 <p>
          The Color Transformation Language, or CTL, is a programming language
          for digital color management.  Color management requires translating
@@ -607,9 +841,12 @@ repo home page.</p>
          not identical to the OpenEXR license.
 <p>
 
-<p>---
+<hr>
 
-<p><b>January 4, 2007</b> - OpenEXR wins an Academy Award for Technical Achievement.
+<h3>January 4, 2007</h3>
+
+<h4>OpenEXR wins an Academy Award for Technical Achievement.</h4>
+  
 <p>
 The Academy of Motion Picture Arts and Sciences today announced the 15 winners of Scientific and Technical Academy Awards.  A Technical Achievement Award goes to Florian Kainz for the design and engineering of OpenEXR, a software package implementing 16-bit, floating-point, high dynamic range image files.  Widely adopted, OpenEXR is engineered to meet the requirements of the visual effects industry by providing for lossless and lossy compression of tiered and tiled images.
 <p>
@@ -617,9 +854,11 @@ Congratulations to all for making OpenEXR such a success!!!
 <p>
 <a href="http://www.oscars.org/press/pressreleases/2007/07.01.04.html" target="_blank">Click here for the official Press Release</a>
 
-<p>---
+<hr>
 
-<p><b>December 15, 2006</b> - A new development version of OpenEXR is now available.
+<h3>December 15, 2006</h3>
+
+  <p>A new development version of OpenEXR is now available.
      We have tested the code in this version internally at ILM, but we would
      like to get feedback from others before we release a production version.
 <p>
@@ -666,29 +905,38 @@ Congratulations to all for making OpenEXR such a success!!!
        files with CIE XYZ pixel data.
       </ul>
 
-<p>---
+<hr>
 
-<p><b>August 8, 2006</b> - We have released an updated set of sample OpenEXR
+<h3>August 8, 2006</h3>
+
+<p>We have released an updated set of sample OpenEXR
          images.  This release includes several new images that are useful
          for testing OpenEXR applications.  The images are organized by
          subdirectory according to their image type or purpose.  Several
          of these subdirectories contain README files that explain the
-         contents of the images in those subdirectories.
-<p>---
+         contents of the images in those subdirectories.</p>
 
-<p><b>August 2, 2006</b> - OpenEXR 1.4.0 is now available.  This is the next
+<hr>
+
+<h3>August 2, 2006</h3>
+
+<p>OpenEXR 1.4.0 is now available.  This is the next
          major production-ready release of OpenEXR and offers full compatibility
          with our last production release, which was 1.2.2.  This version
          obsoletes versions 1.3.x, which were test versions for 1.4.0.
-         If you have been using 1.3.x, please upgrade to 1.4.0.
-<p>---
+         If you have been using 1.3.x, please upgrade to 1.4.0.</p>
+<hr>
 
-<p><b>June 8, 2006</b> - OpenEXR 1.3.0 is now available.  This is
+<h3>June 8, 2006</h3>
+
+<h4>OpenEXR 1.3.0 is now available.</h4>
+
+<p>This is
              a test release.  The major new feature in this version is
              support for multithreaded file I/O.  We've been testing
              the threaded code internally at ILM for a few months, and
              we have not encountered any bugs, but we'd like to get some
-             feedback from others before we release the production version.
+             feedback from others before we release the production version.</p>
 	     <p>
              Here's a summary of the changes since version 1.2.2:
 	     <p>
@@ -717,8 +965,11 @@ Congratulations to all for making OpenEXR such a success!!!
                    <li>gcc on any platform prior to version 3.3
 		   </ul>
 		    </ul>
-<p>---
-<p><b>March 15, 2005</b> - We're pleased to announce the release of OpenEXR 1.2.2.  This is a relatively minor update to the project, with the following changes:
+<hr>
+
+<h3>March 15, 2005</h3>
+
+<p>We're pleased to announce the release of OpenEXR 1.2.2.  This is a relatively minor update to the project, with the following changes:</p>
 
 <ul>
 	<li>New build system for Windows; support for DLLs.
@@ -742,18 +993,22 @@ Congratulations to all for making OpenEXR such a success!!!
       with OpenEXR CVS.
 </ul>
 
-<p>---
+<hr>
 
-<p><b>August 10, 2004</b> - ILM's OpenEXR color management proposal,
+<h3>August 10, 2004</h3>
+
+<p>ILM's OpenEXR color management proposal,
      presented at the Siggraph 2004 "OpenEXR, Film and Color"
      Birds of a Feather meeting, is now available online.
-     See the documentation section.
+     See the documentation section.</p>
 
-<p>---
+<hr>
 
-<p><b>June 6, 2004</b> - OpenEXR 1.2.1 is now available.  This is a fairly minor release,
+<h3>June 6, 2004</h3>
+
+<p>OpenEXR 1.2.1 is now available.  This is a fairly minor release,
 mostly just a few tweaks, a few bug fixes, and some new documentation.
-Here are the most important changes:
+Here are the most important changes:</p>
 
 <ul>
   <li>reduced memory footprint of exrenvmap and exrmaketiled
@@ -766,17 +1021,19 @@ Here are the most important changes:
   <li>Warning cleanups in Visual C++.</li>
 </ul>
 
-<p>---
+<hr>
 
-<p><b>May 11, 2004</b> - OpenEXR 1.2.0 is now available.  This is the first official,
+<h3>May 11, 2004</h3>
+
+<p>OpenEXR 1.2.0 is now available.  This is the first official,
 production-ready release since OpenEXR 1.0.7.  If you have been using the
-development 1.1 series, please switch to 1.2.0 as soon as possible.
+development 1.1 series, please switch to 1.2.0 as soon as possible.</p>
 
-We believe that OpenEXR 1.2.0 is ready for use in shipping applications.
+<p>We believe that OpenEXR 1.2.0 is ready for use in shipping applications.
 We have been using it in production at ILM for several months now with no
-problems.
+problems.</p>
 
-There are quite a few major new features in the 1.2 series as compared to the original 1.0 series:
+<p>There are quite a few major new features in the 1.2 series as compared to the original 1.0 series:</p>
 
 <ul>
   <li>Support for tiled images, including mipmaps and ripmaps.  Note that
@@ -806,21 +1063,24 @@ There are quite a few major new features in the 1.2 series as compared to the or
 </ul>
 
 
-See the <a href="downloads">downloads</a> section to download the source
-code and sample images.
+<p>See the <a href="downloads">downloads</a> section to download the source
+code and sample images.</p>
 
-<p>---
+<hr>
 
-<p><b>Mar 27, 2004</b> - OpenEXR 1.1.1 is now available.  This another
+<h3>Mar 27, 2004</h3>
+<p>OpenEXR 1.1.1 is now available.  This another
 development release.  We expect to release a stable version, 1.2,
 around the end of April.  Version 1.1.1 includes support for PXR24
 compression, and for high-dynamic-range luminance/chroma images
 with subsampled chroma channels.  Version 1.1.1 also fixes a bug
-in the 1.1.0 tiled file format.
+in the 1.1.0 tiled file format.</p>
 
-<p>---
+<hr>
 
-<p><b>Mar 27, 2004</b> - We are pleased to announce that
+<h3>Mar 27, 2004</h3>
+
+<p>We are pleased to announce that
 Pixar Animation Studios has contributed code to OpenEXR
 for a new lossy compression method, which compresses 32-bit
 floating-point data quite a bit better than OpenEXR's other
@@ -828,68 +1088,66 @@ compressors.  This new compressor is called PXR24 and is
 available as of the 1.1.1 development release of OpenEXR.
 It will also be included in the upcoming 1.2 stable release.
 Thanks to Loren Carpenter and Dana Batali of Pixar, for making
-this happen!
+this happen!</p>
 
-<p>---
+<hr>
 
-<p><b>Feb 6, 2004</b> - OpenEXR 1.1.0 is now available.  This is a major new release
+<h3>Feb 6, 2004</h3>
+<p>OpenEXR 1.1.0 is now available.  This is a major new release
 with support for tiled images, multi-resolution files (mip/ripmaps),
 environment maps, and abstracted file I/O.  We've also released a new set
 of images that demonstrate these features, and updated the CodeWarrior project and Photoshop plugins for this release.  See the <a
 href="downloads">downloads</a> section for the source code and the new
-images.
+images.</p>
 
-<p>---
+<hr>
 
-<p><b>Jan 8, 2004</b> - Industrial Light & Magic has released the source code for an OpenEXR Shake plugin.
-The plugin is supported on Shake 3.0 on the GNU/Linux and MacOS X platforms.  See the <a href="downloads">downloads</a> section.
+<h3>Jan 8, 2004</h3>
+<p>Industrial Light & Magic has released the source code for an OpenEXR Shake plugin.
+The plugin is supported on Shake 3.0 on the GNU/Linux and MacOS X platforms.  See the <a href="downloads">downloads</a> section.</p>
 
-<p>---
+<hr>
 
-<p><b>Jan 7, 2004</b> - OpenEXR 1.0.7 is now available.  In addition to some bug
+<h3>Jan 7, 2004</h3>
+<p>OpenEXR 1.0.7 is now available.  In addition to some bug
 fixes, this version adds support for some new standard attributes, such as
 primary and white point chromaticities, lens aperture, film speed, image
 acquisition time and place, and more.  If you want to use these new
 attributes in your applications, see the ImfStandardAttributes.h header
-file for documentation.
+file for documentation.</p>
 
 <p>Our project hosting site, Savannah, is still recovering from a compromise
 last month, so in the meantime, we're hosting file downloads <a
 href="downloads">here</a>.  Some of the files are not currently
-available, but we're working to restore them.
+available, but we're working to restore them.</p>
 
-<p>---
+<hr>
 
-<p><b>April 3, 2003</b> - OpenEXR release 1.0.5 is now available.  It
+<h3>April 3, 2003</h3>
+</p>OpenEXR release 1.0.5 is now available.  It
 includes support for Windows and improved support for OS X.  It also
 includes support for hardware rendering of OpenEXR images on NVIDIA
 GeForce FX and Quadro FX video cards.  See the
 <a href="downloads.html">downloads</a> section for source code and
-prebuilt packages for Windows, OS X 10.2, and RedHat.
+prebuilt packages for Windows, OS X 10.2, and RedHat.</p>
 
-<p>---
+<hr>
 
-<p><b>April 3, 2003</b> - Industrial Light & Magic has released the source code for an OpenEXR display driver for
+<h3>April 3, 2003</h3>
+</p>Industrial Light & Magic has released the source code for an OpenEXR display driver for
 Pixar's Renderman.  This display driver is covered under the OpenEXR free software license.
-See the <a href="downloads.html">downloads</a> section for the source code.
+See the <a href="downloads.html">downloads</a> section for the source code.</p>
 
-<p>---
+<hr>
 
-<p><b>January 22, 2003</b> - OpenEXR Press Release <a href="OpenEXR_Press_Release_1_22_03.pdf" target="_blank">click here</a>
+<h3>January 22, 2003</h3>
+</p>OpenEXR Press Release <a href="OpenEXR_Press_Release_1_22_03.pdf" target="_blank">click here</a></p>
 
-<p>---
+<hr>
 
-<p><b>January 22, 2003</b> - openexr.com web site is officially launched.
+<h3>January 22, 2003</h3>
 
-<!-- <p>October 14, 2002 - OpenEXR is now available for download.  See the
-Downloads section of this website for details. -->
-
-<p><h5><a name="support">Supported Platforms</a></h5>
-
-<p>OpenEXR has been ported to GNU/Linux, OS X 10.2, Win32, and IRIX.
-It should be fairly easy to port to other UNIX-like operating systems.
-
-          <p>&nbsp;</p>
+<p>openexr.com web site is officially launched.</p>
 
 <font face="Arial,Helvetica,sans-serif" size="1"
       color="#993333">&#169; <script>var curDate=new Date();
