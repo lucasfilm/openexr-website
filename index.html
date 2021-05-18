@@ -183,6 +183,77 @@ target="_blank">here</a>.
 
 <hr>
 
+<h3>May 17, 2021 - OpenEXR v3.0.2</h3>
+
+<p>Patch release with miscellaneous bug/build fixes, primarily:</p>
+
+<ul>
+ <li>Fix TimeCode.frame max value</li>
+ <li> Don't impose C++14 on downstream projects </li>
+ <li> Restore fix to macOS universal 2 build lost from #854 </li>
+</ul>
+
+<p>Specific OSS-fuzz issues:</p>
+
+<ul>
+  <li> OSS-fuzz
+    <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33741"
+       target="_blank">33741</a> Integer-overflow in Imf_3_0::getScanlineChunkOffsetTableSize</li>
+  <li> OSS-fuzz
+    <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=32620"
+       target="_blank">32620</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+</ul>
+
+<p>Download OpenEXR v3.0.2 from <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.0.2">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.0.2.</a></p>
+
+<hr>
+
+<h3>May 17, 2021 - OpenEXR v2.5.6</h3>
+
+<p>Patch release for v2.5 that fixes a regression in Imath::succf()/Imath::predf().</p>
+
+<p>Download OpenEXR v2.5.6 from <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.6">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.5.6.</a></p>
+
+<hr>
+
+<h3>May 17, 2021 - OpenEXR v2.4.3</h3>
+
+<p>Patch release for v2.4 that addresses the following security vulnerabilities:</p>
+
+<ul>
+  <li> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-20296" target="_blank">CVE-2021-20296</a> Segv on unknown address in Imf_2_5::hufUncompress - Null Pointer dereference </li>
+  <li> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3479" target="_blank">CVE-2021-3479</a> Out-of-memory in openexr_exrenvmap_fuzzer </li>
+  <li> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3478" target="_blank">CVE-2021-3478</a> Out-of-memory in openexr_exrcheck_fuzzer </li>
+  <li> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3477" target="_blank">CVE-2021-3477</a> Heap-buffer-overflow in Imf_2_5::DeepTiledInputFile::readPixelSampleCounts </li>
+  <li> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3476" target="_blank">CVE-2021-3476</a> Undefined-shift in Imf_2_5::unpack14 </li>
+  <li> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3475" target="_blank">CVE-2021-3475</a> Integer-overflow in Imf_2_5::calculateNumTiles </li>
+  <li> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-3474" target="_blank">CVE-2021-3474</a> Undefined-shift in Imf_2_5::FastHufDecoder::FastHufDecoder </li>
+</ul>
+
+<p>Also:</p>
+
+<ul>
+ <li> Fixed regression in Imath::succf() and Imath::predf() when
+ negative values are given </li>
+</ul>
+
+<p>Download OpenEXR v2.4.3 from <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.3">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v2.4.3.</a></p>
+
+<hr>
+
+<h3>May 16, 2021 - Imath v3.0.2</h3>
+
+<p>Patch release with miscellaneous bug/build fixes, primarily:</p>
+
+<ul>
+  <li> Fix regression in succf()/predf() </li>
+  <li> Don't impose C++14 on downstream projects </li>
+</ul>
+
+<p>Download Imath v3.0.2 from <a href="https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.0.2">https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.0.2.</a></p>
+
+<hr>
+
 <h3>April 1, 2021 - OpenEXR and Imath v3.0</h3>
 
 <p>The OpenEXR Project and the Academy Software Foundation (ASWF)
@@ -653,7 +724,7 @@ repo home page.</p>
 
 <hr>
 
-<h3>August 13, 2018 OpenEXR.3.0 has </h3>
+<h3>August 13, 2018 OpenEXR 2.3.0 </h3>
 
 <h4>OpenEXR v2.3.0 has been released and is available for download.  </h4>
 
@@ -686,7 +757,9 @@ repo home page.</p>
 
 <p>OpenEXR source can be obtained from the downloads section of <a href="http://www.openexr.com">www.openexr.com</a> or from the project page on github: <a href="https://github.com/AcademySoftwareFoundation/openexr">https://github.com/AcademySoftwareFoundation/openexr</a></p>
 
-<h3>November 30, 2017 OpenEXR.2.1 has </h3>
+<hr>
+
+<h3>November 30, 2017 OpenEXR 2.2.1 </h3>
 
 <h4>OpenEXR v2.2.1 has been released and is available for download.  </h4>
 
