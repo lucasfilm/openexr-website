@@ -181,6 +181,140 @@ target="_blank">here</a>.
 <hr><h4>
 <p><h2><a name="announ">Announcements</a></h2>
 
+
+<hr>
+
+<h3>July 22, 2021 - OpenEXR v3.1.0</h3>
+
+<p>The 3.1 release of OpenEXR introduces a new library, OpenEXRCore,
+which is the result of a significant re-thinking of how OpenEXR
+manages file I/O and provides access to image data. It begins to
+address long-standing scalability issues with multithreaded image
+reading and writing.</p>
+
+<p>The OpenEXRCore library provides thread-safe, non-blocking access to
+files, which was not possible with the current API, where the
+framebuffer management is separate from read requests. It is written
+entirely in C and provides a new C-language API alongside the existing
+C++ API. This new low-level API allows applications to do custom
+unpacking of EXR data, such as on the GPU, while still benefiting from
+efficient I/O, file validation, and other semantics. It provides
+efficient direct access to EXR files in texturing applications. This C
+library also introduces an easier path to implementing OpenEXR
+bindings in other languages, such as Rust.</p>
+
+<p>The 3.1 release represents a technology preview for upcoming
+releases. The initial release is incremental; the existing API and
+underlying behavior has not changed. The new API is available now for
+performance validation testing, and then in future OpenEXR releases,
+the C++ API will migrate to use the new core in stages.  It is not the
+intention to entirely deprecate the C++ API, nor must all applications
+re-implement EXR I/O in terms of the C library. The C API does not,
+and will not, provide the rich set of utility classes that exist in
+the C++ layer. The 3.1 release of the OpenEXRCore library simply
+offers new functionality for specialty applications seeking the
+highest possible performance. In the future, the ABI will evolve, but
+the API will remain consistent, or only have additions. </p>
+
+<h4>Technical Design</h4>
+
+<p>The OpenEXRCore API introduces a ``context`` object to manage file
+I/O. The context provides customization for I/O, memory allocation,
+and error handling.  This makes it possible to use a decode and/or
+encode pipeline to customize how the chunks are written and read, and
+how they are packed or unpacked.</p>
+
+<p>The OpenEXRCore library is built around the concept of “chunks”, or
+atomic blocks of data in a file, the smallest unit of data to be read
+or written.  The contents of a chunk vary from file to file based on
+compression (i.e. zip and zips) and layout (scanline
+vs. tiled). Currently this is either 1, 16, or 32 scanlines, or 1 tile
+(or subset of a tile on edge boundaries / small mip level).</p>
+
+<p>The OpenEXRCore library is specifically designed for multipart EXR
+files. It will continue to produce legacy-compatible single part files
+as needed, but the API assumes you are always dealing with a
+multi-part file. It also fully supports attributes, although being C,
+it lacks some of the C++ layer’s abstraction.</p>
+
+<h4>Limitations:</h4>
+
+<ul>
+  <li>No support yet for DWAA and DWAB compression during decode and
+    encode pipelines. The low-level chunk I/O still works with DWAA
+    and DWAB compressed files, but the encoder and decoder are not yet
+    included in this release.</li>
+
+  <li>For deep files, reading of deep data is functional, but the path
+    for encoding deep data into chunk-level data (i.e. packing and
+    compressing) is not yet complete.</li>
+
+  <li>For both of these deficiencies, it is easy to define a custom
+    routine to implement this, should it be needed prior to the
+    library providing full support.</li>
+
+  <li>No attempt to search through the file and find missing chunks is
+    made when a corrupt chunk table is encountered. However, if a
+    particular chunk is corrupt, this is handled such that the other
+    chunks may be read without rendering the context unusable</li>
+</ul>
+
+<p>Download OpenEXR v3.1.0 from <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.1.0">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.1.0.</a></p>
+
+<hr>
+
+<h3>July 20, 2021 - Imath v3.1.1</h3>
+
+<p>Patch release that fixes a build failure on ARM64 macOS</p>
+
+<p>Download Imath v3.1.1 from <a href="https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.1.1">https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.1.1.</a></p>
+
+<hr>
+
+<h3>July 13, 2021 - Imath v3.1.0</h3>
+
+<p>Minor release with new features:</p>
+
+<ul>
+  <li>Optimized half-to-float and float-to-half conversion, using F16C
+    SSE instruction set if available. Non-SSE conversion eliminates the
+    float-to-half exponent lookup table, and half-to-float conversion
+    provides a compile-time-optional bit shifting that is slower but
+    eliminates the need for the lookup table, for applications where
+    memory is limited.</li>
+
+  <li> Half-to-float and float-to-half conversion is also available as
+    C-language functions <tt>imath_half_to_float()</tt> and
+    <tt>imath_float_to_half()</tt>.</li>
+  
+  <li> All new conversions produced identical results, and new options are
+    off by default to ensure backwards compatibility. See
+    <a href="https://imath.readthedocs.io">https://imath.readthedocs.io</a>
+    for more info.</li>
+  
+  <li> <tt>NOEXCEPT</tt> specifier can be eliminated at compile-time via the
+    <tt>IMATH_USE_NOEXCEPT</tt> CMake option.</li>
+
+  <li> Python bindings:
+    <ul>
+      <li> FixedArray objects support a "read only" state. </li>
+      <li> FixedArray objects support python buffer protocol.</li>
+    </ul>
+  </li>
+
+  <li>Optimized 4x4 matrix multiplication.</li>
+</ul>
+
+<p>Download Imath v3.1.0 from <a href="https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.1.0">https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.1.0.</a></p>
+
+<hr>
+
+<h3>July 1, 2021 - OpenEXR v3.0.5</h3>
+
+<p>Patch release that fixes problems with library symlinks and pkg-config, as well as miscellaneous bugs/security issues.</p>
+
+<p>Download OpenEXR v3.0.5 from <a href="https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.0.5">https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.0.5.</a></p>
+
 <hr>
 
 <h3>June 16, 2021 - OpenEXR v2.5.7</h3>
