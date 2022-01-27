@@ -172,8 +172,87 @@ target="_blank">here</a>.
 
 <hr><h4>
 <p><h2><a name="announ">Announcements</a></h2>
+<hr>
+
+<h3>January 27, 2021 - OpenEXR v3.1.4</h3>
+
+<p>Patch release that addresses various issues:</p>
+
+<ul>
+<li> Several bug fixes to properly reject invalid input upon read </li>
+<li> A check to enable SSE2 when building with Visual Studio</li>
+<li> A check to fix building with VisualStudio on ARM64</li>
+<li> Update the automatically-downloaded version of Imath to v3.1.4</li>
+<li> Miscellaneous documentation improvements</li>
+</ul>
+
+<p>This addresses one public security vulnerability:</p>
+
+<ul>
+  <li> <a href="https://nvd.nist.gov/vuln/detail/CVE-2021-45942"
+  target="_blank">CVE-2021-45942</a> Heap-buffer-overflow in Imf_3_1::LineCompositeTask::execute</li>
+</ul>
+
+<p>Specific OSS-fuzz issues:</p>
+
+<ul>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=43961" target="_blank">43961</a> Heap-buffer-overflow in generic_unpack</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=43916" target="_blank">43916</a> Heap-buffer-overflow in hufDecode</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=43763" target="_blank">43763</a> Heap-buffer-overflow in internal_huf_decompress</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=43745" target="_blank">43745</a> Floating-point-exception in internal_exr_compute_tile_information</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=43744" target="_blank">43744</a> Divide-by-zero in internal_exr_compute_tile_information</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=42197" target="_blank">42197</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=42001" target="_blank">42001</a> Timeout in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=41999" target="_blank">41999</a> Heap-buffer-overflow in Imf_3_1::LineCompositeTask::execute</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=41669" target="_blank">41669</a> Integer-overflow in Imf_3_1::rleUncompress</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=41625" target="_blank">41625</a> Heap-buffer-overflow in uncompress_b44_impl</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=41416" target="_blank">41416</a> Heap-buffer-overflow in Imf_3_1::LineCompositeTask::execute</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=41075" target="_blank">41075</a> Integer-overflow in Imf_3_1::copyIntoDeepFrameBuffer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=40704" target="_blank">40704</a> Crash in Imf_3_1::DeepTiledInputFile::readPixelSampleCounts</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=40702" target="_blank">40702</a> Null-dereference in bool Imf_3_1::readDeepTile<Imf_3_1::DeepTiledInputFile></li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=40701" target="_blank">40701</a> Null-dereference in bool Imf_3_1::readDeepTile<Imf_3_1::DeepTiledInputPart></li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=40423" target="_blank">40423</a> Out-of-memory in openexr_exrcheck_fuzzer</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=40234" target="_blank">40234</a> Heap-buffer-overflow in generic_unpack</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=40231" target="_blank">40231</a> Heap-buffer-overflow in hufDecode</li>
+  <li> OSS-fuzz <a href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=40091" target="_blank">40091</a> Heap-buffer-overflow in hufDecode</li>
+</ul>
+
+<p>See the 
+<a href="https://github.com/AcademySoftwareFoundation/openexr/blob/v3.1.4/CHANGES.md">release
+  notes</a> for more details</p>
+
+<p>Download OpenEXR v3.1.4 from <a href="https://github.com/AcademySoftwareFoundation/OpenEXR/releases/tag/v3.1.4">https://github.com/AcademySoftwareFoundation/OpenEXR/releases/tag/v3.1.4.</a></p>
+
 
 <hr>
+
+<h3>January 21, 2021 - Imath v3.1.4</h3>
+
+<p>Patch release with miscellaneous bug/doc/build fixes.</.>
+
+<ul>
+<li>Added missing check _M_IX86 or _M_X64 when using __lzcnt.</li>
+<li>SolveNormalizedCubic fix to return proper real root</li>
+<li>Add docs target only if not a subproject</li>
+<li>Fix docs race condition and make installation optional</li>
+<li>Remove dead PyImath code and references to ilmbase</li>
+<li>Use equalWithAbsError instead of equal operator for float</li>
+<li>Fix sphinx warnings and man page filenames</li>
+<li>Adding missing stdexcept header</li>
+<li>Use .x instead of operator[] for better SIMD auto-vectorization</li>
+<li>Successor/predecessor functions use isnan() and isinf()</li>
+<li>Fix python imath export</li>
+<li>Cuda safety fixes</li>
+</ul>
+
+<p>See the 
+<a href="https://github.com/AcademySoftwareFoundation/Imath/blob/v3.1.4/CHANGES.md">release
+  notes</a> for more details</p>
+
+<p>Download Imath v3.1.4 from <a href="https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.1.4">https://github.com/AcademySoftwareFoundation/Imath/releases/tag/v3.1.4.</a></p>
+
+<hr>
+
 
 <h3>October 27, 2021 - OpenEXR v3.1.3</h3>
 
@@ -203,7 +282,7 @@ target="_blank">here</a>.
 <a href="https://github.com/AcademySoftwareFoundation/openexr/blob/v3.1.3/CHANGES.md">release
   notes</a> for more details</p>
 
-<p>Download OpenEXR v3.1.2 from <a href="https://github.com/AcademySoftwareFoundation/OpenEXR/releases/tag/v3.1.3">https://github.com/AcademySoftwareFoundation/OpenEXR/releases/tag/v3.1.3.</a></p>
+<p>Download OpenEXR v3.1.3 from <a href="https://github.com/AcademySoftwareFoundation/OpenEXR/releases/tag/v3.1.3">https://github.com/AcademySoftwareFoundation/OpenEXR/releases/tag/v3.1.3.</a></p>
 
 <hr>
 
