@@ -1,2 +1,1 @@
-# openexr-website
-OpenEXR website
+deprecated, see https://github.com/AcademySoftwareFoundation/openexr
